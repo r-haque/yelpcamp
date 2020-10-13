@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const _ = require("lodash");
@@ -12,9 +16,9 @@ const User = require(__dirname + "/models/user.js");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const session = require("express-session");
-const flash = require("connect-flash");
-const mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
+const MongoStore = require('connect-mongo')(session);
 
+const flash = require("connect-flash");
 
 const campgroundRoutes = require(__dirname + "/routes/campgrounds.js");
 const commentRoutes = require(__dirname + "/routes/comments.js");
@@ -22,12 +26,31 @@ const indexRoutes = require(__dirname + "/routes/index.js");
 
 const app = express();
 
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelpcampDB';
+const secret = process.env.SECRET || "i dont know what to do";
+
 app.set('view engine', 'ejs');
 
+const store = new MongoStore({
+    url: dbUrl,
+    secret,
+    touchAfter: 24 * 60 * 60
+})
+
+store.on("error", function(err){
+    console.log("session store error", err);
+})
+
 app.use(session({
-    secret: "i dont know what to do",
+    store,
+    secret,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 *24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
 }));
 
 app.locals.moment = require('moment');
@@ -52,7 +75,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-mongoose.connect('mongodb://localhost:27017/yelpcampDB', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 app.use(indexRoutes);
 app.use("/campgrounds/:campId/comments", commentRoutes);
