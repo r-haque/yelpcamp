@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,400&family=Noto+Sans:ital@0;1&family=Open+Sans:ital,wght@0,400;0,600;1,400&family=Roboto:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/star-rating.min.css">
+    <link rel="stylesheet" href="/styles/index.css">
+    <title>YelpCamp</title>
+</head>
+<body class="index">
+
+    <div class="index-header">
+        <div class="image-header mx-2 text-center">
+            <div class="display-3 text-light text-center"><i class="fas fa-mountain"></i>YelpCamp
+            </div>
+            <!-- <div class="display-4 text-right p-1 pr-3"><em>Discover Your Next Adventure</em></div> -->
+            <a class="btn btn-outline-light btn-sm  mt-2 display-4 px-3" href="/campgrounds/new"><i class="fas fa-plus mr-2"></i>New
+                Campground</a>
+        </div>
+        <div class="down-page">
+            <a href="#navbar"><i class="fas fa-chevron-down"></i></a> 
+        </div>
+    </div>
+
+    <nav class="navbar navbar-expand-md navbar-light bg-light shadow-lg" id="navbar">
+        <a class="navbar-brand" href="/"><i class="fas fa-mountain text-info"></i> YelpCamp</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item text-left">
+              <a class="nav-link" href="/campgrounds">Camps</a>
+            </li>
+          </ul>
+          
+          <ul class="navbar-nav ml-auto">
+            <% if(!user) { %>
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/register">Sign Up <i class="fas fa-user-plus"></i></a>
+              </li>
+            <% } else { %>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Signed in as <span class="font-weight-bolder text-info"><%= user.username %></span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Log Out <i class="fas fa-sign-out-alt"></i></a>
+              </li>
+            <% } %>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container mt-3"> 
+        <% if(failure && failure.length !== 0) { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Oh No!</strong> <%= failure %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <% } else if(success && success.length !== 0) { %>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Yay!</strong> <%= success %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <% } %>
+      </div>
+
+<div class="container mt-4">
+    <header class="jumbotron" id="welcome-banner">
+        <h1 class="display-5 font-weight-bold">Welcome to YelpCamp</h1>
+        <p>Browse through some of the world's greatest campgrounds today!</p>
+        <a class="btn btn-info btn-lg" href="/campgrounds/new"><i class="fas fa-plus"></i> Add New
+            Campground</a>
+    </header>
+
+    <div class="row d-flex flex-fill">
+        <% camps.forEach(function(camp) { %>
+        <div class="col-sm-6 col-lg-4 col-xl-3 mb-5 flip-card">
+            <div class="card-inner">
+                <div class="card camp-card card-front" id="display-card-index">
+                    <img src="<%= camp.image %>" class="card-img-top show-img">
+                    <div class="card-body">
+                        <h4 class="card-text text-nowrap text-center text-light"><%= camp.name %></h4>
+                        <% if(camp.comments.length !== 0) { %>
+                            <div class="rating star-icon medium color-ok value-<%= camp.stars %>">
+                                <div class="star-container">
+                                    <div class="star">
+                                        <i class="star-empty"></i>
+                                        <i class="star-half"></i>
+                                        <i class="star-filled" id="1"></i>
+                                    </div>
+                                    <div class="star">
+                                        <i class="star-empty"></i>
+                                        <i class="star-half"></i>
+                                        <i class="star-filled" id="2"></i>
+                                    </div>
+                                    <div class="star">
+                                        <i class="star-empty"></i>
+                                        <i class="star-half"></i>
+                                        <i class="star-filled" id="3"></i>
+                                    </div>
+                                    <div class="star">
+                                        <i class="star-empty"></i>
+                                        <i class="star-half"></i>
+                                        <i class="star-filled" id="4"></i>
+                                    </div>
+                                    <div class="star">
+                                        <i class="star-empty"></i>
+                                        <i class="star-half"></i>
+                                        <i class="star-filled" id="5"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } else { %>
+                            <p class="text-center text-warning m-0" id="no-revs"><em>No Reviews Yet</em></p>
+                        <% } %>
+                    </div>
+                    <a href="/campgrounds/<%= camp._id %>" class="btn btn-outline-info p-2 mb-3 text-nowrap font-weight-bold" id="more-info">Learn More</a>
+                </div>
+                <div class="card-back">
+                    <%= camp.description %>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function() {
+  $(window).scroll(function () {
+
+    if ($(window).scrollTop() > window.innerHeight) {
+      $('.navbar').addClass('fixed-top');
+      $("body").css("margin-top", "60px")
+    }
+
+    if ($(window).scrollTop() < window.innerHeight) {
+      $('.navbar').removeClass('fixed-top');
+      $("body").css("margin-top", "0px")
+    }
+  });
+});
+</script>
+<%- include("../partials/footer") -%>

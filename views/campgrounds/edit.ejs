@@ -1,0 +1,91 @@
+<%- include("../partials/header") -%>
+
+<div class="container" id="change-form">
+
+    <div class="bg-white" id="form-container-map">
+        <h1 align="center" class="mt-1">Edit
+            <%= camp.name %>
+        </h1>
+
+        <form action="/campgrounds/<%= camp._id %>?_method=PUT" method="post" class="mx-auto my-4">
+            <div class="row camp-info">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="campname">Campground Name</label>
+                        <input type="text" id="campname" class="form-control" name="name" value="<%= camp.name %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="imageurl">Image URL</label>
+                        <input type="text" id="imageurl" class="form-control" name="image" value="<%= camp.image %>">
+                    </div>
+
+                    <label for="price">Price Per Night</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input type="number" id="price" class="form-control" name="price" value="<%= camp.price %>" min="0"
+                            step="0.01">
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label for="descrip">Campground Description</label>
+                        <textarea id="descrip" class="form-control" rows="1" name="description" value="<%= camp.description %>" required><%= camp.description %></textarea>
+                    </div>
+
+                    <label>Longitude & Latitude</label>
+                    <div class="input-group mb-3">
+                        <input type="text" name="longitude" id="longitude" aria-label="longitude" class="form-control"
+                            value="<%= camp.longitude %>" required>
+                        <input type="text" name="latitude" id="latitude" aria-label="latitude" class="form-control"
+                            value="<%= camp.latitude %>" required>
+                    </div>
+                </div>
+                <div class="col-md-6 text-right">
+                    <label class="pr-2 text-info font-weight-bold">Drag Marker to Camp Location</label>
+                    <div class="map-container">
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div> 
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-info btn-lg pl-5 pr-5 mb-2" name="submit">Edit</button>
+            </div> 
+        </form>
+
+        <a href="/campgrounds" class="d-flex justify-content-center text-info">Go Back</a>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoicmhhcXVlIiwiYSI6ImNrZzcxM29zeDAyeGkyeW16aDd2bGxyNGQifQ.Qbe6Xi9ym_Kd5YJJk9MJBw';
+    var curLong = $("#longitude").val();
+    var curLat = $("#latitude").val();
+    var map = new mapboxgl.Map({
+        container: 'map', // container id
+        style: 'mapbox://styles/mapbox/streets-v11', // custom style url from https://studio.mapbox.com/
+        center: [curLong, curLat], // starting position
+        zoom: 7 // starting zoom
+    });
+
+    var marker = new mapboxgl.Marker({
+        draggable: true
+    })
+        .setLngLat([curLong, curLat])
+        .addTo(map);
+
+    function onDragEnd() {
+        var lngLat = marker.getLngLat();
+        $("#longitude").val(lngLat.lng);
+        $("#latitude").val(lngLat.lat);
+    }
+
+    marker.on('dragend', onDragEnd);
+</script>
+
+<%- include("../partials/footer") -%>

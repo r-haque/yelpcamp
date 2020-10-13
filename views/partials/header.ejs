@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,400&family=Noto+Sans:ital@0;1&family=Open+Sans:ital,wght@0,400;0,600;1,400&family=Roboto:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/star-rating.min.css">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+    <title>YelpCamp</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-light shadow-lg fixed-top">
+        <a class="navbar-brand" href="/"><i class="fas fa-mountain text-info"></i> YelpCamp</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item text-left">
+              <a class="nav-link" href="/campgrounds">Camps</a>
+            </li>
+          </ul>
+          
+          <ul class="navbar-nav ml-auto">
+            <% if(!user) { %>
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/register">Sign Up <i class="fas fa-user-plus"></i></a>
+              </li>
+            <% } else { %>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Signed in as <span class="font-weight-bolder text-info"><%= user.username %></span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Log Out <i class="fas fa-sign-out-alt"></i></a>
+              </li>
+            <% } %>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container mt-3"> 
+        <% if(failure && failure.length !== 0) { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Oh No!</strong> <%= failure %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <% } else if(success && success.length !== 0) { %>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Yay!</strong> <%= success %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <% } %>
+      </div>

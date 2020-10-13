@@ -1,0 +1,258 @@
+<%- include("../partials/header") -%>
+
+<div class="container">
+    <div class="row mt-3">
+        <div class="d-none d-md-block col-md-3">
+            <div id="menu-list" class="list-group">
+                <a class="list-group-item list-group-item-action" id="desc-a">Description</a>
+                <a class="list-group-item list-group-item-action" id="location-a">Location</a>
+                <a class="list-group-item list-group-item-action" id="reviews-a">Reviews</a>
+            </div>
+            <div class="well mt-2 bg-light menu-map">
+                <div id="map-sm-container">
+                    <div id="map-sm"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="card" id="camp-desc">
+                <img src="<%= camp.image %>" class="card-img-top">
+                <div class="card-body">
+
+                    <h5 class="card-title d-inline h3"><%= camp.name %></span></h5>
+                    <p class="float-right d-inline">$<%= camp.formattedPrice %>/night</p>
+                    <br>
+                    <div class="d-inline-flex rating star-icon medium color-ok <%= classes %>">
+                        <div class="star-container">
+                            <div class="star">
+                                <i class="star-empty"></i>
+                                <i class="star-half"></i>
+                                <i class="star-filled" id="1"></i>
+                            </div>
+                            <div class="star">
+                                <i class="star-empty"></i>
+                                <i class="star-half"></i>
+                                <i class="star-filled" id="2"></i>
+                            </div>
+                            <div class="star">
+                                <i class="star-empty"></i>
+                                <i class="star-half"></i>
+                                <i class="star-filled" id="3"></i>
+                            </div>
+                            <div class="star">
+                                <i class="star-empty"></i>
+                                <i class="star-half"></i>
+                                <i class="star-filled" id="4"></i>
+                            </div>
+                            <div class="star">
+                                <i class="star-empty"></i>
+                                <i class="star-half"></i>
+                                <i class="star-filled" id="5"></i>
+                            </div>
+                        </div>
+                        <% if(camp.comments.length !== 0) { %>
+                        <p class="d-inline h5 pt-3">| <%= camp.numStars %> Stars</p>
+                        <% } else { %>
+                        <p class="d-inline h5 pt-3">| No Reviews Yet</p>
+                        <% } %>
+                    </div>
+
+
+                    <p class="card-text"><%= camp.description %></p>
+
+                    <% if (user) { %>
+                    <% if(camp.author.id.equals(user._id)) { %>
+
+                    <a href="/campgrounds/<%= camp._id %>/edit" class="btn btn-warning">Edit</a>
+
+                    <form action="/campgrounds/<%= camp._id %>?_method=DELETE" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+
+                    <% }} %>
+
+                    <blockquote class="blockquote text-right d-inline">
+                        <footer class="blockquote-footer font-weight-bold">
+                            <%= camp.author.username %>
+                            <div class="font-italic font-weight-light"><%= moment(camp.created).fromNow() %></div>
+                        </footer>
+                    </blockquote>
+
+                    <div class="text-right"></div>
+
+                </div>
+            </div>
+
+            <div class="well mt-3 bg-light pt-3" id="location">
+                <h2 class="d-inline p-3"><a class="anchor"></a>Location</h2>
+                <% if (placeName !== "") { %>
+                    <div>
+                        <div class="text-right text-info font-weight-bolder pr-3 mb-2">This camp can be found at</div>
+                        <div class="h5 text-right pr-3 pb-2"><%= placeName %></div>
+                    </div>
+                <% } %>
+                <hr class="mb-0">
+                <input id="longitude" value="<%= camp.longitude %>" class="d-none">
+                <input id="latitude" value="<%= camp.latitude %>" class="d-none">
+                <div id="map-lg-container">
+                    <div id="map-lg"></div>
+                </div>
+                <hr class="mt-0">
+                
+            </div>
+
+            <div class="well mt-3 bg-light pt-3" id="reviews">
+                <h2 class="d-inline p-3">Reviews</h2>
+                <a class="btn btn-info float-right mr-3 mt-1" href="/campgrounds/<%= camp._id %>/comments/new">Leave
+                    A Review</a>
+
+                <% if (camp.comments.length === 0) { %>
+                    <hr>
+                    <div class="row p-2">
+                        <div class="col text-center"> 
+                            <div class="display-4 text-danger"><em>No Reviews Yet</em></div>
+                        </div>
+                    </div>
+                <% } %>
+
+                <% camp.comments.forEach(function(comment){ %>
+                <hr>
+                <div class="row p-2">
+                    <div class="col mr-2 ml-2">
+                        <strong><%= comment.author.username %></strong>
+                        <div
+                            class="rating d-inline-flex star-icon theme-google-places label-hidden value-<%= comment.stars %>">
+                            <div class="label-value">Rating</div>
+                            <div class="star-container">
+                                <div class="star">
+                                    <i class="star-empty"></i>
+                                    <i class="star-half"></i>
+                                    <i class="star-filled" id="1"></i>
+                                </div>
+                                <div class="star">
+                                    <i class="star-empty"></i>
+                                    <i class="star-half"></i>
+                                    <i class="star-filled" id="2"></i>
+                                </div>
+                                <div class="star">
+                                    <i class="star-empty"></i>
+                                    <i class="star-half"></i>
+                                    <i class="star-filled" id="3"></i>
+                                </div>
+                                <div class="star">
+                                    <i class="star-empty"></i>
+                                    <i class="star-half"></i>
+                                    <i class="star-filled" id="4"></i>
+                                </div>
+                                <div class="star">
+                                    <i class="star-empty"></i>
+                                    <i class="star-half"></i>
+                                    <i class="star-filled" id="5"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="pull-right text-secondary"><%= moment(comment.created).fromNow() %></span>
+                        <p pt-2><%= comment.text %></p>
+
+                        <% if (user) { %>
+                        <% if(comment.author.id.equals(user._id)) { %>
+
+                        <div class="text-right">
+                            <a href="/campgrounds/<%= camp._id %>/comments/<%= comment._id %>/edit"
+                                class="btn btn-warning">Edit</a>
+
+                            <form action="/campgrounds/<%= camp._id %>/comments/<%= comment._id %>?_method=DELETE"
+                                method="post" class="d-inline">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+
+                        <% }} %>
+
+                    </div>
+                </div>
+                <% }) %>
+                <div class="pb-3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoicmhhcXVlIiwiYSI6ImNrZzcxM29zeDAyeGkyeW16aDd2bGxyNGQifQ.Qbe6Xi9ym_Kd5YJJk9MJBw';
+    var curLong = $("#longitude").val();
+    var curLat = $("#latitude").val();
+    var map1 = new mapboxgl.Map({
+        container: 'map-lg', // container id
+        style: 'mapbox://styles/mapbox/streets-v11', // custom style url from https://studio.mapbox.com/
+        center: [curLong, curLat], // starting position
+        zoom: 7 // starting zoom
+    });
+
+    var map2 = new mapboxgl.Map({
+        container: 'map-sm', // container id
+        style: 'mapbox://styles/mapbox/streets-v11', // custom style url from https://studio.mapbox.com/
+        center: [curLong, curLat], // starting position
+        zoom: 12 // starting zoom
+    });
+
+    var marker1 = new mapboxgl.Marker({
+        draggable: false
+    })
+        .setLngLat([curLong, curLat])
+        .addTo(map1);
+
+    var marker2 = new mapboxgl.Marker({
+        draggable: false
+    })
+        .setLngLat([curLong, curLat])
+        .addTo(map2);
+
+    $("#desc-a").click(function(){
+        window.scrollTo(0, 0);
+    })
+
+    $("#location-a").click(function(){
+        window.scrollTo(0, $("#location").offset().top - 70);
+    })
+
+    $("#reviews-a").click(function(){
+        window.scrollTo(0, $("#reviews").offset().top - 70);
+    })
+    
+    $(window).scroll(function(){
+        var scrolled = $(window).scrollTop();
+        if(scrolled < $("#camp-desc").offset().top + $("#camp-desc").height()){
+            $(".list-group-item").removeClass("selected");
+            $("#desc-a").addClass("selected");
+        }
+        if(scrolled > $("#camp-desc").offset().top + $("#camp-desc").height()-100){
+            $(".list-group-item").removeClass("selected");
+            $("#location-a").addClass("selected");
+        }
+        if(scrolled > $("#location").offset().top + $("#location").height() -100){
+            $(".list-group-item").removeClass("selected");
+            $("#reviews-a").addClass("selected");
+        }
+    })
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

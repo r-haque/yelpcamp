@@ -1,0 +1,100 @@
+body{
+    margin-top: 0px;
+}
+
+div.index-header{
+    width: 100%;
+    height: 100%;
+    /* background-image: linear-gradient(rgba(38, 38, 38, 0.6),rgba(38, 38, 38, 0.6)),url("https://cdn.pixabay.com/photo/2016/11/18/17/02/bonfire-1835829_1280.jpg"); */
+    background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),url("https://images.unsplash.com/photo-1468245856972-a0333f3f8293?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"); 
+    background-size: cover;
+    background-position: 50% 50%;
+    height: 100vh; /* Some height */
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+				 0px 8px 13px rgba(0,0,0,0.1),
+				 0px 18px 23px rgba(0,0,0,0.1);
+}
+
+.down-page a{
+    font-size: 3rem;
+    color: rgb(255, 255, 255);
+    opacity: 0.6;
+    margin-bottom: 0px;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.down-page a:hover{
+    opacity: 1;
+}
+
+div.container{
+    width: 100%;
+    height: 100%;
+}
+
+.image-header{
+    margin-bottom: 30vh;
+}
+
+.display-4{
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.679);
+}
+
+.btn-outline-light{
+    text-shadow: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.btn-outline-light:hover{
+    color: rgba(0, 0, 0, 0.623);
+}
+
+.card-back{
+    background: rgba(67, 67, 67, 0.46);
+    box-shadow: 6px 2px 16px 1px rgba(0, 0, 0, 0.281);
+    border: 1px solid #ffffff25;
+    border-radius: 10px;
+    grid-area: frontAndBack;
+    transform: rotateY(-180deg);
+}
+
+.card-back, .card-front{
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+.flip-card{
+    display: grid;
+    perspective: 1000px;
+}
+
+.card-inner{
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+/* .flip-card:hover .card-inner{
+    transform: rotateY(180deg);
+} */
+
+.flip-card .card-inner{
+    transform-style: preserve-3d;
+    transition: all 0.7s ease;
+}
+
+.card-inner{
+    display: grid; grid-template: 1fr / 1fr;
+    grid-template-areas: "frontAndBack";
+    transform-style: preserve-3d;
+    transition: all 0.7s ease;
+}
+
+.card-front{
+    grid-area: frontAndBack;
+}
