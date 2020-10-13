@@ -19,6 +19,14 @@ body {
     z-index: 1;
 }
 
+#reviews, #location, #camp-desc{
+    border-radius: 6px;
+}
+
+#image{
+    border-radius: 6px 6px 0 0;
+}
+
 .anchor{
     position: relative;
     margin-top: 20px;
@@ -89,6 +97,7 @@ body {
     position: absolute;
     height: 450px;
     width: 100%;
+    border-radius: 6px;
 }
 
 .map-container{

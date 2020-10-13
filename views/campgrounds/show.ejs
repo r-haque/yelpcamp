@@ -17,7 +17,7 @@
 
         <div class="col-md-9">
             <div class="card" id="camp-desc">
-                <img src="<%= camp.image %>" class="card-img-top">
+                <img src="<%= camp.image %>" class="card-img-top" id="image">
                 <div class="card-body">
 
                     <h5 class="card-title d-inline h3"><%= camp.name %></span></h5>
@@ -104,7 +104,7 @@
 
             <div class="well mt-3 bg-light pt-3" id="reviews">
                 <h2 class="d-inline p-3">Reviews</h2>
-                <a class="btn btn-info float-right mr-3 mt-1" href="/campgrounds/<%= camp._id %>/comments/new">Leave
+                <a class="btn btn-info float-right mr-3 mt-1" href="/campgrounds/<%= camp._id %>/comments/new"><i class="fas fa-plus mr-2"></i>Leave
                     A Review</a>
 
                 <% if (camp.comments.length === 0) { %>
